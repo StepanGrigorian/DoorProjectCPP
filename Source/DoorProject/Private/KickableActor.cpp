@@ -1,25 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+#include "KickableActor.h"
+#include "Components/StaticMeshComponent.h"
 
-
-#include "AutomaticDoor.h"
-
-// Sets default values
-AAutomaticDoor::AAutomaticDoor()
+AKickableActor::AKickableActor()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
-void AAutomaticDoor::BeginPlay()
+void AKickableActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void AAutomaticDoor::Tick(float DeltaTime)
+void AKickableActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

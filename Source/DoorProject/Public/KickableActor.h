@@ -3,17 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Door.h"
-#include "AutomaticDoor.generated.h"
+#include "GameFramework/Actor.h"
+#include "UObject/ObjectPtr.h"
+#include "Kickable.h"
+#include "Components/StaticMeshComponent.h"
+#include "KickableActor.generated.h"
 
 UCLASS()
-class DOORPROJECT_API AAutomaticDoor : public ADoor
+class DOORPROJECT_API AKickableActor : public AActor, public IKickable
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	AAutomaticDoor();
+	AKickableActor();
 
 protected:
 	// Called when the game starts or when spawned
