@@ -63,7 +63,8 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	Input->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyCharacter::Move);
 	Input->BindAction(RotateCameraAction, ETriggerEvent::Triggered, this, &AMyCharacter::RotateCamera);
 	Input->BindAction(ClickAction, ETriggerEvent::Started, this, &AMyCharacter::OnKick);
-	Input->BindAction(InteractAction, ETriggerEvent::Started, this, &AMyCharacter::OnInteract);
+	Input->BindAction(InteractAction, ETriggerEvent::Started, this, &AMyCharacter::OnInteractionStart);
+	Input->BindAction(InteractAction, ETriggerEvent::Completed, this, &AMyCharacter::OnInteractionEnd);
 
 	//GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacter::OnBeginOverlap);
 	//GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &AMyCharacter::OnEndOverlap);
@@ -95,7 +96,7 @@ void AMyCharacter::RotateCamera(const FInputActionValue& Value)
 void AMyCharacter::OnKick()
 {
 	Kicker->CheckLineAndKick(Camera->GetComponentLocation(), Camera->GetForwardVector(), CalculateKickDirection());
-	IKicker::Execute_CheckLineAndKick(this, Camera->GetComponentLocation(), Camera->GetForwardVector(), CalculateKickDirection());
+	//IKicker::Execute_CheckLineAndKick(this, Camera->GetComponentLocation(), Camera->GetForwardVector(), CalculateKickDirection());
 }
 
 //void AMyCharacter::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -109,10 +110,13 @@ void AMyCharacter::OnKick()
 //	//UKismetSystemLibrary::PrintString(this, "CharacterEndOverlap");
 //}
 
-void AMyCharacter::OnInteract()
+void AMyCharacter::OnInteractionStart()
 {
-	InteractDelegate.Broadcast();
-	Interactor->InteractDelegate.Broadcast();
+	Interactor->InteractionStartDelegate.Broadcast(Interactor);
+}
+void AMyCharacter::OnInteractionEnd()
+{
+	Interactor->InteractionEndDelegate.Broadcast(Interactor);
 }
 
 FVector AMyCharacter::CalculateKickDirection()
@@ -122,11 +126,12 @@ FVector AMyCharacter::CalculateKickDirection()
 	const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X) + FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	return Direction;
 }
-void AMyCharacter::CheckLineAndKick_Implementation(FVector LineStart, FVector LineDirection, FVector KickDirection)
+
+/*void AMyCharacter::CheckLineAndKick_Implementation(FVector LineStart, FVector LineDirection, FVector KickDirection)
 {
 	FCollisionQueryParams CollisionParams;
 	CollisionParams.AddIgnoredActor(GetOwner());
-	
+
 	FHitResult Result;
 	if (GetWorld()->LineTraceSingleByChannel(
 		Result,
@@ -141,4 +146,4 @@ void AMyCharacter::CheckLineAndKick_Implementation(FVector LineStart, FVector Li
 			IKickable::Execute_Kick(other, KickDirection * Force);
 		}
 	}
-}
+}*/

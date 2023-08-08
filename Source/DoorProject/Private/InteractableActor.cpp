@@ -32,10 +32,10 @@ void AInteractableActor::OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AAc
 	//UKismetSystemLibrary::PrintString(this, "Actor OnBeginOverlap");
 	if (OtherActor->Implements<UInteractor>())
 	{
-		AMyCharacter* character = Cast<AMyCharacter>(OtherActor);
-		if (character)
+		AMyCharacter* Character = Cast<AMyCharacter>(OtherActor);
+		if (Character)
 		{
-			character->InteractDelegate.AddDynamic(this, &AInteractableActor::Interaction);
+			//Character->InteractDelegate.AddDynamic(this, &AInteractableActor::Interaction);
 		}
 	}
 }
@@ -48,7 +48,7 @@ void AInteractableActor::OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActo
 		AMyCharacter* Character = Cast<AMyCharacter>(OtherActor);
 		if (IsValid(Character))
 		{
-			Character->InteractDelegate.RemoveDynamic(this, &AInteractableActor::Interaction);
+			//Character->InteractDelegate.RemoveDynamic(this, &AInteractableActor::Interaction);
 		}
 	}
 }

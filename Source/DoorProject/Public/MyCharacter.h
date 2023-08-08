@@ -18,7 +18,7 @@
 class UInputAction;
 
 UCLASS()
-class DOORPROJECT_API AMyCharacter : public ACharacter, public IInteractor, public IKicker
+class DOORPROJECT_API AMyCharacter : public ACharacter//, public IInteractor, public IKicker
 {
 	GENERATED_BODY()
 
@@ -65,21 +65,25 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual void OnInteract() override;
+	virtual void OnInteractionStart();
+	virtual void OnInteractionEnd();
 
 	//UFUNCTION()
 	//	void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	//UFUNCTION()
 	//	void OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 	UFUNCTION()
 		FVector CalculateKickDirection();
-	UPROPERTY()
-		FInteract InteractDelegate;
+	//UPROPERTY()
+	//	FInteract InteractDelegate;
 private:
 	void Move(const FInputActionValue& Value);
+
 	void RotateCamera(const FInputActionValue& Value);
+
 	UFUNCTION()
 		void OnKick();
-	virtual void CheckLineAndKick_Implementation(FVector LineStart, FVector LineDirection, FVector KickDirection) override;
+	//virtual void CheckLineAndKick_Implementation(FVector LineStart, FVector LineDirection, FVector KickDirection) override;
 
 };

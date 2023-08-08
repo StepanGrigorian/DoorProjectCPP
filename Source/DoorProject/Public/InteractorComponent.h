@@ -9,7 +9,7 @@
 #include "InteractorComponent.generated.h"
 
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteract);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteract, UInteractorComponent*, Interactor);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class DOORPROJECT_API UInteractorComponent : public UActorComponent
@@ -25,6 +25,8 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY()
-		FInteract InteractDelegate;
+		FInteract InteractionStartDelegate;
+	UPROPERTY()
+		FInteract InteractionEndDelegate;
 
 };

@@ -1,21 +1,20 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Components/BoxComponent.h"
-#include "Components/StaticMeshComponent.h"
 #include "InteractableComponent.generated.h"
 
+class UInteractorComponent;
+class UPrimitiveComponent;
+class UBoxComponent;
+class UStaticMeshComponent;
 
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS()
 class DOORPROJECT_API UInteractableComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
 	UInteractableComponent();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -24,17 +23,19 @@ public:
 		TObjectPtr<UStaticMeshComponent> Mesh;
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
-
+	TObjectPtr<UInteractorComponent> Interactor = nullptr;
 public:
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UFUNCTION()
-		void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+		virtual void OnBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	UFUNCTION()
-		void OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+		virtual void OnEndOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	UFUNCTION()
-		virtual void Interaction();
+		virtual void StartInteraction(UInteractorComponent* interactor);
+	UFUNCTION()
+		virtual void EndInteraction(UInteractorComponent* interactor);
+	UFUNCTION()
+		virtual void Initialize();
 
 };
